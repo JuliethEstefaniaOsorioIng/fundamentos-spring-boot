@@ -1,5 +1,6 @@
 package com.fundamentos.springboot.fundamentos.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -19,17 +20,24 @@ public class Users {
     @Column(name="name", length = 50)
     private String name;
 
-    @Column(name="email", length = 50)
+    @Column(name="email", length = 50, unique = true)
     private String email;
 
     @Column(name="birthday")
     private LocalDate birthday;
 
     @OneToMany(mappedBy = "users", cascade= CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Postrs> postrs = new ArrayList<>();
 
     public Users() {
+    }
+
+    public Users(Long id, String name, String email, LocalDate birthday) {
+        this.id=id;
+        this.name = name;
+        this.email = email;
+        this.birthday = birthday;
     }
 
     public Users(String name, String email, LocalDate birthday) {
@@ -38,8 +46,17 @@ public class Users {
         this.birthday = birthday;
     }
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
