@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class UsersService {
 
-    private final Log LOG = LogFactory.getLog(UsersService.class);
+    private final Log LOGGER = LogFactory.getLog(UsersService.class);
 
     private UserRepository userRepository;
 
@@ -24,7 +24,7 @@ public class UsersService {
 
     @Transactional
     public void saveTransactional(List<Users> users){
-        users.stream().peek(user->LOG.info("Usuario insertado "+user)).forEach(userRepository::save);
+        users.stream().peek(user-> LOGGER.info("Usuario insertado "+user)).forEach(userRepository::save);
     }
 
     public List<Users> getAll(){

@@ -1,10 +1,9 @@
 package com.fundamentos.springboot.fundamentos.repository;
 
-import com.fundamentos.springboot.fundamentos.dto.UsersDTO;
 import com.fundamentos.springboot.fundamentos.entity.Users;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<Users, Long> {
+public interface UserRepository extends PagingAndSortingRepository<Users, Long> {
 
     @Query("SELECT u FROM Users u WHERE u.email=?1")
     Optional<Users> findMyUserByEmail(String email);
@@ -35,4 +34,12 @@ public interface UserRepository extends JpaRepository<Users, Long> {
 
     @Query("select u from Users u where u.birthday =:date or u.email =:email")
     Optional<Users> getAllByBirthdayAndEmail(@Param("date") LocalDate date, @Param("email") String email);
+
+    Users save(Users users);
+
+    List<Users> findAll();
+
+    void deleteById(Long id);
+
+    Optional<Users> findById(Long id);
 }
